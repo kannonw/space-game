@@ -8,7 +8,7 @@ public class GravitationalAttraction : MonoBehaviour
     public Rigidbody rb;
     public static List<GravitationalAttraction> Attractors;
     private readonly float _g = 6.67408f * 10; // * Mathf.Pow(10, -1);
-
+    public Vector3 GravityForce { get; private set; }
 
     private void Start()
     {
@@ -44,9 +44,9 @@ public class GravitationalAttraction : MonoBehaviour
 
         float forceMargnitude = _g * (rb.mass * rbToAttrack.mass) / Mathf.Pow(direction.magnitude, 2);
 
-        Vector3 force = direction.normalized * forceMargnitude;
+        GravityForce = direction.normalized * forceMargnitude;
 
-        rbToAttrack.AddForce(force);
+        rbToAttrack.AddForce(GravityForce);
     }
 }
 
