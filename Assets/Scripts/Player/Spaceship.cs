@@ -6,64 +6,59 @@ using UnityEngine.UIElements;
 
 public class Spaceship : MonoBehaviour
 {
-
-    public float forwardSpeed, rotateSpeed, horizontalSpeed, verticalSpeed;
     public static float kmp;
+
     private float _forward, _rotate, _pitch, _yaw;
     private Transform _myT;
 
     public Rigidbody rb;
-    public Vector3 rotation;
-    // public float v;
-    // private bool verify;
+    public Vector3 rotation, position, currentVelocity;
+    public float forwardSpeed, rotateSpeed, horizontalSpeed, verticalSpeed;
 
     void Start()
     {
-         rb = GetComponent<Rigidbody>();
-         _myT = transform;
+        _myT = transform;
+        rb = GetComponent<Rigidbody>();
     }
     
     void Update()
     {
-        kmp = rb.velocity.magnitude;
+        kmp = currentVelocity.z;
 
-        _forward = Mathf.Lerp(_forward, Input.GetAxisRaw("Forward") * forwardSpeed, 2f * Time.deltaTime);
-        _rotate = Mathf.Lerp(_rotate,Input.GetAxisRaw("XRotate") * verticalSpeed, 4f * Time.deltaTime);
-        _pitch = Mathf.Lerp(_pitch, Input.GetAxisRaw("YRotate") * horizontalSpeed, 3f * Time.deltaTime);
-        _yaw = Mathf.Lerp(_yaw,Input.GetAxisRaw("ZRotate")* rotateSpeed, 4f * Time.deltaTime);
+        _forward = Input.GetAxisRaw("Forward");
+        _rotate = Mathf.Lerp(_rotate,Input.GetAxisRaw("XRotate") * verticalSpeed, 3f * Time.deltaTime);
+        _pitch = Mathf.Lerp(_pitch, Input.GetAxisRaw("YRotate") * horizontalSpeed, 2.5f * Time.deltaTime);
+        _yaw = Mathf.Lerp(_yaw,Input.GetAxisRaw("ZRotate")* rotateSpeed, 3f * Time.deltaTime);
 
         rotation = new Vector3(_rotate, _pitch, _yaw);
-        // if ((int)rb.velocity.z == 0)
-        // {
-        //     verify = false;
-        // }
-
-        // movement = new Vector3(Input.GetAxisRaw("Forward"), 0, 0);
-        // movement = transform.rotation.eulerAngles * Input.GetAxisRaw("Forward");
     }
 
     void FixedUpdate()
     {
+        CalculateVelocity();
         MoveShip();
     }
 
     void MoveShip()
     {
-        if (rb.velocity.z >= 0)
-            _myT.position += transform.forward * (_forward * Time.deltaTime);
+        // if (CurrentVelocity >= 0)
+        //     _myT.position += transform.forward * (_forward * Time.deltaTime);
+
+        if (_forward > 0)
+        {
+            rb.AddRelativeForce(Vector3.forward * forwardSpeed);
+        }
+        else if (_forward < 0 && currentVelocity.z > 0)
+        {
+            rb.AddRelativeForce(Vector3.back * (forwardSpeed * currentVelocity.z * Time.deltaTime));
+        }
         _myT.Rotate(rotation * Time.deltaTime, Space.Self);
-        // rotation = new Vector3(_rotate * verticalSpeed, _pitch * horizontalSpeed, _yaw * rotateSpeed);
-        // v = rb.velocity.z;
-        //
-        // if (_forward < 0 && Math.Abs(rb.velocity.z) > 0 && verify)
-        // {
-        //     rb.AddRelativeForce(Vector3.back * (forwardSpeed * Math.Abs(rb.velocity.z)));
-        // }
-        // else if (_forward > 0)
-        // {
-        //     rb.AddRelativeForce(Vector3.forward * forwardSpeed);
-        //     verify = true;
-        // }
-        //
+    }
+
+    void CalculateVelocity()
+    {
+        currentVelocity = (rb.position - position) / Time.fixedDeltaTime;
+        position = rb.position;
+        currentVelocity = Quaternion.Euler(0, -_myT.rotation.eulerAngles.y, 0) * currentVelocity;
     }
 }
