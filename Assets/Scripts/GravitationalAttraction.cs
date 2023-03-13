@@ -49,4 +49,5 @@ public class GravitationalAttraction : MonoBehaviour
         rbToAttrack.AddForce(GravityForce);
     }
 }
-
+//if (distancia ==300){
+//
