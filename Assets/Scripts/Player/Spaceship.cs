@@ -7,13 +7,15 @@ using UnityEngine.UIElements;
 public class Spaceship : MonoBehaviour
 {
     public static float kmp;
+    public static bool ComputerMovement;
 
-    private float _forward, _rotate, _pitch, _yaw;
     private Transform _myT;
+    
+    private float _forward, _activeForwardSpeed, _rotate, _pitch, _yaw;
+    public float forwardSpeed, rotateSpeed, horizontalSpeed, verticalSpeed;
 
     public Rigidbody rb;
     public Vector3 rotation, position, currentVelocity;
-    public float forwardSpeed, rotateSpeed, horizontalSpeed, verticalSpeed;
 
     void Start()
     {
@@ -23,9 +25,13 @@ public class Spaceship : MonoBehaviour
     
     void Update()
     {
-        kmp = currentVelocity.z;
+        if (Input.GetKeyDown("space"))
+        {
+            ComputerMovement = !ComputerMovement;
+        }
 
-        _forward = Input.GetAxisRaw("Forward");
+        kmp = currentVelocity.z;
+        _forward = Input.GetAxis("Forward");
         _rotate = Mathf.Lerp(_rotate,Input.GetAxisRaw("XRotate") * verticalSpeed, 3f * Time.deltaTime);
         _pitch = Mathf.Lerp(_pitch, Input.GetAxisRaw("YRotate") * horizontalSpeed, 2.5f * Time.deltaTime);
         _yaw = Mathf.Lerp(_yaw,Input.GetAxisRaw("ZRotate")* rotateSpeed, 3f * Time.deltaTime);
@@ -36,23 +42,31 @@ public class Spaceship : MonoBehaviour
     void FixedUpdate()
     {
         CalculateVelocity();
-        MoveShip();
+        _myT.Rotate(rotation * Time.deltaTime, Space.Self);
+        
+        if (ComputerMovement)
+            LinearMoveShip();
+        else
+            MoveShip();
     }
 
     void MoveShip()
     {
-        // if (CurrentVelocity >= 0)
-        //     _myT.position += transform.forward * (_forward * Time.deltaTime);
-
         if (_forward > 0)
         {
-            rb.AddRelativeForce(Vector3.forward * forwardSpeed);
+            rb.AddRelativeForce(Vector3.forward * (forwardSpeed * Time.deltaTime), ForceMode.Force);
         }
         else if (_forward < 0 && currentVelocity.z > 0)
         {
-            rb.AddRelativeForce(Vector3.back * (forwardSpeed * currentVelocity.z * Time.deltaTime));
+            rb.AddRelativeForce(Vector3.back * (forwardSpeed * currentVelocity.z * Time.deltaTime), ForceMode.Force);
         }
-        _myT.Rotate(rotation * Time.deltaTime, Space.Self);
+    }
+
+    void LinearMoveShip()
+    {
+        _activeForwardSpeed = Mathf.Lerp(_activeForwardSpeed, forwardSpeed * _forward, Time.deltaTime);
+        
+        _myT.position += _myT.forward * (_activeForwardSpeed * Time.deltaTime);
     }
 
     void CalculateVelocity()
