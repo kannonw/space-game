@@ -64,9 +64,11 @@ public class Spaceship : MonoBehaviour
 
     void LinearMoveShip()
     {
-        _activeForwardSpeed = Mathf.Lerp(_activeForwardSpeed, forwardSpeed * _forward, Time.deltaTime);
-        
-        _myT.position += _myT.forward * (_activeForwardSpeed * Time.deltaTime);
+        if (currentVelocity.z >= 0)
+        {
+            _activeForwardSpeed = Mathf.Lerp(_activeForwardSpeed, forwardSpeed * _forward, Time.deltaTime);
+            _myT.position += _myT.forward * (_activeForwardSpeed * Time.deltaTime);
+        }
     }
 
     void CalculateVelocity()

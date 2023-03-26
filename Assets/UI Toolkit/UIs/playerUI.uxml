@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="position: absolute; bottom: 11px; left: 19px;">
+        <ui:Label text="Label" display-tooltip-when-elided="true" name="shipVelocity" style="font-size: 24px; color: rgba(255, 255, 255, 255); width: 83px;" />
+        <ui:Label text="Label" display-tooltip-when-elided="true" name="shipMode" style="font-size: 24px; color: rgba(255, 255, 255, 255); width: 70px;" />
+    </ui:VisualElement>
+</ui:UXML>
