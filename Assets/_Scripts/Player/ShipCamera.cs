@@ -19,7 +19,7 @@ public class ShipCamera : MonoBehaviour
 
     private void Update()
     {
-        _velocity = Spaceship.kmp;
+        _velocity = Spaceship.Kpm;
         
         if (_velocity > 0)
         {

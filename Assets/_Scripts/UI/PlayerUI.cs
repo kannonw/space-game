@@ -18,7 +18,7 @@ namespace UI
 
         void Update()
         {
-            _velocity.text = Spaceship.kmp.ToString("F0");
+            _velocity.text = Spaceship.Kpm.ToString("F0");
             if (Spaceship.ComputerMovement)
                 _mode.text = "Linear";
             else
