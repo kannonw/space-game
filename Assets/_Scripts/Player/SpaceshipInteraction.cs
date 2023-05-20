@@ -58,7 +58,7 @@ public class SpaceshipInteraction : MonoBehaviour
             
             // transform.Rotate(Vector3.right, angle * Time.deltaTime);
             
-            transform.RotateAround(_bodyPosition, transform.right, Time.deltaTime * _rotateAroundSpeed);
+            transform.RotateAround(_bodyPosition, transform.up, Time.deltaTime * _rotateAroundSpeed);
             
             // float angle = Vector3.Angle(_bodyPosition, transform.forward);
             // Debug.Log(Mathf.Cos(angle));   
@@ -70,7 +70,7 @@ public class SpaceshipInteraction : MonoBehaviour
 
         spaceshipController.OnOrbit = true;
         spaceshipGravitationalAttraction.beAttracted = false;
-        _rotateAroundSpeed = Mathf.Sqrt(GravitationalAttraction.G * (_bodyMass + _rb.mass) / _bodyDistance);
+        _rotateAroundSpeed = Mathf.Sqrt(GravitationalAttraction.G * (_bodyMass + _rb.mass) / _bodyDistance) / 4;
         _rb.velocity = Vector3.zero;
 
         //

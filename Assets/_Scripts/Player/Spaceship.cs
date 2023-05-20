@@ -9,6 +9,7 @@ public class Spaceship : MonoBehaviour
     public static bool ComputerMovement;
     public bool OnOrbit;
 
+    [SerializeField] private GravitationalAttraction spaceshipGravitationalAttraction;
     [SerializeField] private float forwardSpeed, backwardSpeed, rotateSpeed;
     [SerializeField] private GameInput gameInput;
     
@@ -39,6 +40,7 @@ public class Spaceship : MonoBehaviour
         if (_forward != 0)
         {
             _rb.velocity = Vector3.zero;
+            spaceshipGravitationalAttraction.beAttracted = true;
             OnOrbit = false;
         }
 

@@ -638,12 +638,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4902428652268491097, guid: 444f94af96dc8ef43bf3125d90e2f65f, type: 3}
       propertyPath: forwardSpeed
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4902428652268491097, guid: 444f94af96dc8ef43bf3125d90e2f65f, type: 3}
       propertyPath: backwardSpeed
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 4902428652268491097, guid: 444f94af96dc8ef43bf3125d90e2f65f, type: 3}
+      propertyPath: spaceshipGravitationalAttraction
+      value: 
+      objectReference: {fileID: 1648915033}
     - target: {fileID: 6500557853275598663, guid: 444f94af96dc8ef43bf3125d90e2f65f, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -879,11 +883,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7192047595658760443, guid: 5e013a362a12e1c47a842b678cc79c7f, type: 3}
       propertyPath: customInitialVelocity.x
-      value: 61.61
+      value: 19.48
       objectReference: {fileID: 0}
     - target: {fileID: 7192047595658760443, guid: 5e013a362a12e1c47a842b678cc79c7f, type: 3}
       propertyPath: customInitialVelocity.z
-      value: -40.98
+      value: -12.96
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7192047594784051469, guid: 5e013a362a12e1c47a842b678cc79c7f, type: 3}
